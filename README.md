@@ -1,260 +1,155 @@
 
-# QScript: Human-Centric QA Scripting Language
+# QScript Adapters
 
-QScript is a human-readable, flow-based scripting language for defining automated quality assurance checks. Inspired by Gherkin but designed for **clarity**, **speed**, and **machine efficiency**, QScript allows developers, product owners, and testers to write readable and executable QA specifications in `.qscript` files.
+A unified framework for writing, testing, and sharing **QScript**â€”a concise, human-readable DSL for end-to-end web automationâ€”across multiple automation engines.
 
----
+## ðŸš€ Project Overview
 
-## ✅ What Makes QScript Unique?
-
-- **Readable**: Looks like pseudocode but executes like code
-- **Composable**: Define reusable `Flows` and nestable `Scenarios`
-- **Extensible**: Covers SEO, UX, Functional, Performance, and Security
-- **Intuitive**: Syntax rules designed to avoid confusion or ambiguity
-- **Modular**: Tests can be grouped by product, category, or priority
-
----
-
-## 📦 File Format
-
-QScript scripts are written in `.qscript` files, structured with:
-
-- `Test`: assertion-driven check with priority
-- `Flow`: reusable step chain (no assertion needed)
-- `Scenario`: high-level sequence of `Flows` and `Assertions`
-
----
-
-## 📐 Syntax Overview
+-   **Purpose:** Define a single, consistent test format (QScript) that can be executed by any adapter (Playwright-Python, Selenium-JS, etc.).
+-   **Structure:**
 
 ```
-Test: Check home title [HIGH]
-  Tags: [SEO]
-  Goto "/"
-  Assert "title" matches /.+/
-End
-
-Flow: Login Flow
-  Goto "/login"
-  Fill "#email" with "admin@example.com"
-  Fill "#password" with "secret"
-  Click "#submit"
-  WaitFor ".dashboard"
-End
-
-Scenario: Full Deposit
-  Steps:
-    Use "Login Flow"
-    Use "Deposit Flow"
-    Assert "#thankyou" is visible
-  End
-End
-```
-
----
-
-## 🔠 Priorities
-
-Use either the short form `[P0–P3]` or human-readable form:
-
-| Label     | Equivalent | Description        |
-|-----------|------------|--------------------|
-| CRITICAL  | P0         | Blocker/Fail Fast  |
-| HIGH      | P1         | Must pass in prod  |
-| MEDIUM    | P2         | Desirable to test  |
-| LOW       | P3         | Optional cosmetic  |
-
----
-
-## 🧠 Structure Definitions
-
-### `Test`
-- Must contain one or more `Assert`
-- Appears in test reports
-
-### `Flow`
-- Reusable action logic (e.g., Login, Signup)
-- No assertions required
-
-### `Scenario`
-- High-level sequence of `Flow`, `Use`, and `Assert`
-- Optional `Tags`, `Steps`, and conditions
-
----
-
-## 🌀 Control Blocks
-
-### `ForEachURL`
-```
-Test: Footer exists [LOW]
-  ForEachURL:
-    "/"
-    "/contact"
-  Do:
-    Assert "footer" is visible
-  End
-End
-```
-
-### `ForEachData`
-```
-Test: Login Variants [CRITICAL]
-  ForEachData:
-    Table:
-      | email            | password |
-      | user@site.com    | pass123  |
-  Do:
-    Use "Login Flow"
-  End
-End
-```
-
----
-
-## 🧩 Action Commands
+your-repo/
+â”œâ”€â”€ adapters/
+â”‚   â”œâ”€â”€ playwright-python/   â† Python + Playwright adapter
+â”‚   â””â”€â”€ selenium-js/         â† JavaScript + Selenium adapter
+â”œâ”€â”€ tests/                   â† Shared QScript files (tests & examples)
+â”œâ”€â”€ docs/                    â† Architecture & getting started guides
+â”œâ”€â”€ .github/                 â† CI configs
+â”œâ”€â”€ LICENSE                  â† MIT license
+â”œâ”€â”€ README.md                â† This overview
+â””â”€â”€ pyproject.toml           â† Meta-package & dev dependencies
 
 ```
-Goto "/path"
-Click "#button"
-Fill "#email" with "test@example.com"
-FillAuto "#amount" as "random_2digit"
-WaitFor ".success"
-ScrollTo "#footer"
-Viewport 1440 900
-```
 
----
+## ðŸ“¦ Installation
 
-## 🧪 Assertions
+1.  **Clone:**
+    
+    ```bash
+    git clone https://github.com/your-org/qscript-adapters.git
+    cd qscript-adapters
+    
+    ```
+    
+2.  **Shared tools & browsers:**
+    
+    ```bash
+    pip install -e .[dev]
+    playwright install
+    
+    ```
+    
+3.  **Install an adapter:**
+    
+    -   **Playwright (Python):**
+        
+        ```bash
+        pip install -e adapters/playwright-python
+        
+        ```
+        
+    -   **Selenium (JavaScript):**
+        
+        ```bash
+        cd adapters/selenium-js && npm install
+        
+        ```
+        
 
-```
-Assert "#el" is visible
-Assert "page.status" is 200
-Assert "#title" text matches /Welcome/
-AssertCookie "auth" exists
-Assert "$token" == "$userToken"
-```
+Each adapterâ€™s README has its own CLI instructions and examples:
 
----
+-   [adapters/playwright-python/README.md](https://github.com/edouardkombo/QScript/adapters/playwright-python/README.md)
+-   [adapters/selenium-js/README.md](https://github.com/edouardkombo/QScript/adapters/selenium-js/README.md)
 
-## 🧠 Meta Features
+## ðŸ”¤ QScript DSL Manifesto
 
-```
-Retry 2 times
-WaitFor "#el" timeout 3000ms
-SetVar "token" from JS "window.token"
-SaveSession as "session1"
-RestoreSession "session1"
-SkipIfEnv: "STAGING"
-```
+QScript is designed to be:
 
----
+-   **Linear:** one command per line, executed in order.
+-   **Declarative:** focus on _what_ to do, not _how_ internally.
+-   **Self-documenting:** tests read like plain English.
+-   **Engine-agnostic:** any adapter can implement the same commands.
 
-## 🌍 Context Management
+### Core Commands
 
-- `WaitForPopup`, `SwitchToPopup`, `ClosePopup`
-- `SwitchToIFrame`, `ReturnFromIFrame`
-- `ClearCookies`, `SaveSession`, `RestoreSession`
+1.  **Navigation & Interaction**
+    
+    -   `Goto "<URL>"`
+    -   `Click "<selector>"`
+    -   `Fill "<selector>" with "<text>"`
+    -   `FillAuto "<selector>" with "<text>"`
+    -   `ScrollTo "<selector>"`
+    -   `WaitFor "<selector>"`
+2.  **Assertions**
+    
+    -   `Assert page.status is <code>`
+    -   `Assert page.url is "<URL>"`
+    -   `Assert element "<selector>" exists`
+    -   `Assert element "<selector>" visible`
+    -   `Assert CLS < <threshold>`
+    -   `Assert element "<selector>" similar to "<text>" < <threshold>`
+    -   `Assert children of "<selector>" count <op> <number>`
+    -   `Assert attribute <selector>@<attr> matches /<regex>/`
+    -   `Assert each attribute <attr> in elements "<selector>" matches /<regex>/`
+3.  **Session & Context**
+    
+    -   `SaveSession "<name>"`
+    -   `RestoreSession "<name>"`
+    -   `AssertCookie "<name>" is "<value>"`
+    -   `Viewport <width>x<height>`
+4.  **Control Flow**
+    
+    -   `Retry <n> times on failure`
+    -   `SetVar "<VAR>" = <JS expression>`
+    -   `WaitForPopup` / `SwitchToPopup` / `ClosePopup`
+    -   `SwitchToIFrame "<selector>"` / `ReturnFromIFrame`
 
----
+### File Format
 
-## 🧠 Reserved Words
+-   Files **must** end in `.qscript`.
+-   Lines beginning with `#` are comments.
+-   Special headers:
+    -   `Test: <Name> [<LEVEL>]` â€” begins a test case.
+    -   `Tags: <tag1> <tag2> â€¦` â€” optional metadata.
+    -   `End` â€” marks end of a test case.
 
-- `page.status`, `page.url`, `page.redirected_from`
-- `page.loadtime`, `viewport.width`, `$<variable>`
+### Variables & Substitution
 
----
+-   Use `<VAR>` placeholders in the script.
+-   Pass `-v VAR=value` on the CLI.
+-   Adapters replace `<VAR>` before execution.
 
-## 📁 Test Organization
+## ðŸ”— Links & Further Reading
 
-Structure your repo like:
-```
-/tests
-  ├── seo.qscript
-  ├── ux.qscript
-  ├── deposit.qscript
-  ├── regressions.qscript
-```
+-   **Architecture:** [docs/architecture.md](https://github.com/edouardkombo/QScript/docs/architecture.md)
+-   **Quickstart:** [docs/getting_started.md](https://github.com/edouardkombo/QScript/docs/getting_started.md)
+-   **Playwright-Python Adapter:** [adapters/playwright-python/README.md](https://github.com/edouardkombo/QScript/adapters/playwright-python/README.md)
+-   **Selenium-JS Adapter:** [adapters/selenium-js/README.md](https://github.com/edouardkombo/QScript/adapters/selenium-js/README.md)
 
----
+## ðŸ¤ Contributing
 
-## 🔌 Import Support
+We welcome contributions of all kindsâ€”new adapters, bug fixes, feature ideas, or improved DSL commands.
 
-To reuse flows across files:
-```
-Import "../flows/common-flows.qscript"
-Use "Login Flow"
-```
+1.  **Fork** the repo and create your branch:
+    
+    ```bash
+    git checkout -b feature/my-new-adapter
+    
+    ```
+    
+2.  **Implement** your changes:
+    
+    -   For new adapters: follow the pattern in `adapters/`, include `README.md`, tests, and CI entry.
+    -   For core features: ensure existing adapters continue to pass all `tests/*.qscript`.
+3.  **Write Tests** in `tests/` to cover your changes.
+    
+4.  **Open a Pull Request** against `main` with a clear title and description.
+    
+5.  **Engage** in the reviewâ€”address feedback, add docs, and iterate.
+    
 
----
+See [CONTRIBUTING.md](https://github.com/edouardkombo/QScript/.github/CONTRIBUTING.md) for detailed guidelines.
 
-## 🚦 Reporting Engine
-
-Each `Test` emits:
-- Pass/fail status
-- Step-by-step execution logs
-- Screenshot (optional)
-- Step duration and error detail
-
----
-
-## 📚 Example Scenario
-
-```
-Flow: Signup Flow
-  Goto "/signup"
-  FillAuto "#email" as "random_email"
-  FillAuto "#pass" as "random_password"
-  Click "#register"
-  WaitFor ".welcome"
-End
-
-Scenario: Signup + Deposit
-  Steps:
-    Use "Signup Flow"
-    Use "Deposit Flow"
-    Assert "#thanks" is visible
-  End
-End
-```
-
----
-
-## 💡 Philosophy
-
-> “Write like a human. Test like a machine.”
-
-QScript empowers your team to scale testing without bottlenecks.
-
-- Fast onboarding
-- IDE-friendly
-- AI-generatable
-- Git-diffable
-- Future-proof
-
----
-
-## 🧪 Coming Soon
-- Live test runner UI
-- GitHub Action integration
-- Auto generate `.qscript` from URL or video
-- Visual test flow map
-- Native VS Code extension
-
----
-
-## ✨ Start Testing Now
-
-Just drop your first `.qscript` file in your test repo and let the runner do the rest.
-
-Want help writing your first test? Use:
-```
-npx qscript-gen --input "verify title on homepage" --file seo.qscript
-```
-
-Or try it live with:
-```
-python qa_runner.py --file tests/home.qscript --mode desktop
-```
-
-Enjoy QA like never before. 🎯
+> **Manifesto in brief:**  
+> QScript is the _one true DSL_ for web automationâ€”simple, declarative, and adapter-agnosticâ€”designed so that AI, humans, and CI systems all read the same language and get identical results.
