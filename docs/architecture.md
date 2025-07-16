@@ -5,7 +5,7 @@ This repository hosts multiple **QScript adapters**, each translating the same D
 ## Repository Structure
 
 ```
-<your-repo>/
+QScript/
 ├── adapters/
 │   ├── playwright-python/
 │   │   ├── pyproject.toml
