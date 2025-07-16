@@ -1,0 +1,18 @@
+# qscript-playwright tests/homepage.qscript -v BASE_URL=https://github.com
+Test: Homepage smoke test [LOW]
+  Tags: smoke
+
+  # 1. Go to the homepage
+  Goto "<BASE_URL>"
+
+  # 2. Basic HTTP health
+  Assert page.status is 200
+
+  # 3. Title exists
+  Assert element "head > title" exists
+
+  # 4. H1 visible
+  Assert element "h1" visible
+
+End
+
