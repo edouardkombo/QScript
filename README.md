@@ -8,9 +8,9 @@ QScript makes your acceptance criteria the **single source of truth**—a human-
 
 ## 🔥 Why QScript?
 
-- **Living ACs**: Your `.QScript` file _is_ your acceptance criteria and your test. Edit one place, and the change runs everywhere.
+- **Living ACs**: Your `.qscript` file _is_ your acceptance criteria and your test. Edit one place, and the change runs everywhere.
 - **Framework‑Agnostic**: The same DSL works on **Playwright**, **Selenium**, or **Cypress** via `--adapter`—zero rewrites when you switch tools.
-- **Built‑in Device Matrix**: Run desktop, mobile, and bot contexts **in parallel** by default (`--devices desktop,mobile,bot`).
+- **Built‑in Device Matrix**: Run desktop, mobile, and bot contexts **in parallel** by default (`--device desktop,mobile,bot`).
 - **80%+ Time Savings**: Replace 3–5 artifacts (~30–40 LOC) with a 5‑line script—author in minutes, maintain in seconds.
 - **Democratized QA**: Product, SEO, Marketing—or anyone—can read, review, and execute tests without coding.
 - **Open Source**: MIT‑licensed. Star, fork, and help shape the universal test language.
