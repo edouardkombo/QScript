@@ -1,4 +1,4 @@
-# QScript Adapters
+# QScript
 
 A unified framework for writing, testing, and sharing **QScript**—a concise, human-readable DSL for end-to-end web automation—across multiple automation engines.
 
