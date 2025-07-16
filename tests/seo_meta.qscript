@@ -1,0 +1,13 @@
+# qscript-playwright tests/seo_meta.qscript -v BASE_URL=https://github.com
+Test: SEO meta tags [LOW]
+  Tags: seo crawl
+
+  # 1. Load homepage
+  Goto "<BASE_URL>"
+
+  # 3. canonical link correct
+  Assert element "head link[rel='canonical']" exists
+  Assert attribute link[rel='canonical']@href matches /^<BASE_URL>\/?$/
+
+End
+
