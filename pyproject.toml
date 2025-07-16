@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qscript-adapters"
+version = "0.1.0"
+description = "Metaâ€package & shared dev tooling for all QScript adapters"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+  { name="Edouard Kombo", email="edouard.kombo@gmail.com" }
+]
+
+# no runtime dependencies here â€” each adapter is installed separately
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=6.0",       # for running tests in /tests
+  "black",             # code formatter
+  "flake8",            # linting
+  "mkdocs",            # docs site
+  "pre-commit"         # Git hooks
+]
+
+[tool.setuptools.packages.find]
+# we don't install adapters via this metaâ€package,
+# but setuptools needs a valid [tool.setuptools] section
+where = ["adapters"]
+
+[tool.black]
+line-length = 88
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
