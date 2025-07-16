@@ -1,0 +1,18 @@
+# qscript-playwright tests/link_crawl.qscript -v BASE_URL=https://github.com
+Test: Crawl first 5 links [MEDIUM]
+  Tags: crawl
+
+  # 1. Start at homepage
+  Goto "<BASE_URL>"
+
+  # 2. Ensure at least 5 links
+  Assert children of "body a" count >= 5
+
+  # 3. Capture first 5 hrefs
+  SetVar "LINKS" = "$(await page.$$eval('body a', els => els.slice(0,5).map(e => e.href)))"
+
+  # 4. Verify each of those 5 stays on GitHub
+  Assert each attribute href in elements "body a[href^='http']:nth-of-type(-n+5)" matches /^<BASE_URL>/
+
+End
+
