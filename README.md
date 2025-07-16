@@ -1,6 +1,9 @@
 # QScript
 
-A unified framework for writing, testing, and sharing **QScript**—a concise, human-readable DSL for end-to-end web automation—across multiple automation engines.
+A QA‑focused framework and DSL: QScript provides a concise, human‑readable language dedicated to writing, testing, and sharing end‑to‑end web automation scripts across any adapter.
+Write your QScript and tests are executed automatically.
+
+Save time !
 
 ## 🚀 Project Overview
 
