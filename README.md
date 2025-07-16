@@ -1,9 +1,21 @@
-# QScript
+# QScript: Self-Executable Acceptance Criteria DSL
 
-A QA‑focused framework and DSL: QScript provides a concise, human‑readable language dedicated to writing, testing, and sharing end‑to‑end web automation scripts across any adapter.
-Write your QScript and tests are executed automatically.
+> **Transform your acceptance criteria into living tests across any framework**
 
-Save time !
+QScript makes your acceptance criteria the **single source of truth**—a human-readable `.qscript` file that _is_ the test. Write your feature steps once, embed them in your issue tracker, and run instantly on Playwright, Selenium, or Cypress—no glue code, BDD layers, or manual test plans.
+
+---
+
+## 🔥 Why QScript?
+
+- **Living ACs**: Your `.QScript` file _is_ your acceptance criteria and your test. Edit one place, and the change runs everywhere.
+- **Framework‑Agnostic**: The same DSL works on **Playwright**, **Selenium**, or **Cypress** via `--adapter`—zero rewrites when you switch tools.
+- **Built‑in Device Matrix**: Run desktop, mobile, and bot contexts **in parallel** by default (`--devices desktop,mobile,bot`).
+- **80%+ Time Savings**: Replace 3–5 artifacts (~30–40 LOC) with a 5‑line script—author in minutes, maintain in seconds.
+- **Democratized QA**: Product, SEO, Marketing—or anyone—can read, review, and execute tests without coding.
+- **Open Source**: MIT‑licensed. Star, fork, and help shape the universal test language.
+
+---
 
 ## 🚀 Project Overview
 
@@ -138,8 +150,10 @@ We welcome contributions of all kinds—new adapters, bug fixes, feature ideas, 
 
 2. **Implement** your changes:
 
-   - For new adapters: Follow the pattern in `adapters/`, include `README.md`, tests, and CI entry.
+   - For new adapters (Puppeteer, TestCafe, etc.): Follow the pattern in `adapters/`, include `README.md`, tests, and CI entry.
    - For core features: Ensure existing adapters continue to pass all `tests/*.qscript`.
+   - DSL enhancements
+   - Bug Fixes & docs improvements
 
 3. **Write Tests** in `tests/` to cover your changes.
 
